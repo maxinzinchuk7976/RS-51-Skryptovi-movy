@@ -11,15 +11,18 @@
             padding: 0;
         }
         .header-content {
-            background-color: bisque;
+            background-color: #ffffff;
             width: 100%;
-            height: 10%;
-            margin: 0;
-            padding: 0;
+            height: 5vw;
             text-align: left;
             display: flex;
             align-items: center;
             flex-direction: row;
+            border-width: 0.2vw+0.2vh;
+            border-color: #202020;
+            border-style: solid;
+            background-image: url("{{ asset('images/header-bg.png') }}");
+            background-repeat: repeat;
         }
         .header-content entry {
             text-align: center;
@@ -27,13 +30,14 @@
             height: 100%;
             border-style: solid;
             border-width: 0.1vw+0.1vh;
-            border-color: chocolate;
+            border-color: #202020;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .header-content entry:hover {
-            background-color: beige;
+            background-color: #f0f0f0;
+            border-color: #000000;
         }
         entry, entry a {
             text-decoration: none;
@@ -42,20 +46,28 @@
             font-size: 2vw;
         }
         main {
+            padding-left:  5vw;
+            padding-right: 5vw;
+            padding-top: 0;
+            padding-down: 0;
             margin: 0;
-            padding: 0;
             overflow: hidden;
             display: block;
             min-height: 85vh;
             width: 100%;
-            background-color: azure;
+            background-image: url("{{ asset('images/main-bg.png') }}");
+            background-repeat: repeat;
         }
         main * {
+        }
+        #content {
+            width: 100%;
         }
         footer {
             text-align: center;
             align-items: center;
-            background-color: lightgray;
+            background-image: url("{{ asset('images/footer-bg.png') }}");
+            background-repeat: repeat;
             width: 100%;
             min-height: 5vh;
             font-family: SansSerif;
@@ -69,13 +81,16 @@
 </head>
     <body>
         <header class="header-content">
-            <entry style="width: 20%; background-color: antiquewhite"> Облік товарів магазину одягу </entry>
-            <entry> <a href="{{ url('/#') }}">Головна</a> </entry>
-            <entry> <a href="{{ url('/#') }}">Каталог</a> </entry>
-            <entry> <a href="{{ url('/#') }}">Панель керування</a> </entry>
+            <entry style="width: 20%" > Облік товарів магазину одягу </entry>
+            <entry> <a href="{{ url('/about') }}">Про нас</a> </entry>
+            <entry> <a href="{{ url('/contact') }}">Контакти</a> </entry>
+            <entry> <a href="{{ url('/.') }}">Панель керування</a> </entry>
+            <entry> <a href="{{ url('/catalog') }}">Каталог</a> </entry>
         </header>
         <main>
-            @yield('content')
+            <div id="content">
+                @yield('content')
+            </div>
         </main>
         <footer>
             <p>&copy; {{ date('Y') }} КПІ ім. Ігоря Сікорського. ВСІ ПРАВА ЗАХИЩЕНІ 2026 © </p>
