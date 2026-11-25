@@ -1,7 +1,26 @@
 <?php
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\MarketController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+
+
+Route::get(
+    '/product/search',
+    [ProductController::class, 'search']
+)->name('product.search');
+
+Route::resource(
+    'country',
+    CountryController::class
+);
+
+Route::resource(
+    'product',
+    ProductController::class
+);
+
 
 Route::get(
     '/say/{message?}',
@@ -22,7 +41,7 @@ Route::view(
     '/catalog',
     'catalog'
 )->name('catalog');
-
+/*
 Route::get(
     '/product/{id?}',
     [MarketController::class, 'product']
@@ -30,7 +49,7 @@ Route::get(
 Route::post(
     '/product/',
     [MarketController::class, 'productOrder']
-)->name('product.order');
+)->name('product.order');*/
 
 
 
