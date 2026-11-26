@@ -1,5 +1,6 @@
 <?php
 namespace App\Models;
+use App\Models\Translation;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -16,4 +17,14 @@ class Product extends Model
         'material',
         'photo_path'
     ];
+
+    public function translation(string $language)
+    {
+        $result = $this->hasMany(Translation::class, 'product_id', 'id')
+            ->where('language',$language)
+            ->first(['name','material']) ?? new Translation();;
+        $result->name       = $result->name     ?? $this->name;
+        $result->material   = $result->material ?? $this->material;
+        return $result;
+    }
 }

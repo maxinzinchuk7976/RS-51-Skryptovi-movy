@@ -15,6 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
         \App\Http\Middleware\TrackVisit::class,
         ]);
     })
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->web(append: [
+        \App\Http\Middleware\LangTracker::class,
+        ]);
+    })
     ->withExceptions(function (Exceptions $exceptions) {
         //
     })->create();

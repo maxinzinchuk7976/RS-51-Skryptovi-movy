@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchRequest;
+use App\Http\Requests\TranslateRequest;
 use App\Models\Product;
 use App\Models\Search;
+use App\Models\Translation;
+use Database\Seeders\productSeeder;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\File;
@@ -78,6 +81,14 @@ class ProductController extends Controller
     }
     public function edit(Product $product)
     {
+        return view('product.edit', compact('product'));
+    }
+
+    public function translate(TranslateRequest $request,Product $product)
+    {
+        Translation::create(
+            ['product_id' => $product->id, ...$request->validated()]
+        );
         return view('product.edit', compact('product'));
     }
 
