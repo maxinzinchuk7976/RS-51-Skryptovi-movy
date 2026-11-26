@@ -24,6 +24,9 @@
             background-image: url("{{ asset('images/header-bg.png') }}");
             background-repeat: repeat;
         }
+        .product-photo {
+            max-height: 15vh;
+        }
         .header-content entry {
             text-align: center;
             width: 10%;
@@ -77,6 +80,9 @@
             margin: 0;
             padding-top: 1vh;
         }
+        .w-5 {
+            max-width: 2vw;
+        }
     </style>
 </head>
     <body>
@@ -85,7 +91,8 @@
             <entry> <a href="{{ url('/about') }}">Про нас</a> </entry>
             <entry> <a href="{{ url('/contact') }}">Контакти</a> </entry>
             <entry> <a href="{{ url('/.') }}">Панель керування</a> </entry>
-            <entry> <a href="{{ url('/catalog') }}">Каталог</a> </entry>
+            <entry> <a href="{{ url('/product/') }}">Каталог</a> </entry>
+            <entry> <a href="{{ route('country.index') }}">Країни</a> </entry>
         </header>
         <main>
             <div id="content">
