@@ -6,19 +6,24 @@ use App\Http\Requests\SearchRequest;
 use App\Http\Requests\TranslateRequest;
 use App\Models\Product;
 use App\Models\Search;
+use App\Models\Order;
 use App\Models\Translation;
 use Database\Seeders\productSeeder;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\File;
+use App\Queries\ProductQuery;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(SearchRequest $request, ProductQuery $filter)
     {
-        $products = Product::query()->orderBy('name')->paginate(5);
-        return view('product.catalog', compact('products'));
+        $input = $request->validated();
+        $products = $filter->apply($input)->paginate(10)->withQueryString();
+        return view('product.catalog', ['products' => $products,  'orders' => Order::orderBy('name')->pluck('name', 'order_id'),]);
     }
+
+
 
     public function search(SearchRequest $request)
     {

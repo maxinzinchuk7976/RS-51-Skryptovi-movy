@@ -1,7 +1,9 @@
 <?php
 namespace App\Models;
 use App\Models\Translation;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
@@ -26,5 +28,15 @@ class Product extends Model
         $result->name       = $result->name     ?? $this->name;
         $result->material   = $result->material ?? $this->material;
         return $result;
+    }
+
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(
+        Order::class,
+        'product_order',
+        'product_id',
+        'order_id'
+        );
     }
 }
