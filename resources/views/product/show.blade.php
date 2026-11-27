@@ -1,13 +1,15 @@
+<?php if(empty($lang)){$lang = 'uk';}; $product_translates = $product->translation($lang); ?>
+
 @extends('layouts.app')
-@section('title', $product->name)
+@section('title', $product_translates->name)
 @section('content')
-<h1>{{ $product->name }}</h1>
+<h1>{{ $product_translates->name }}</h1>
 <p>
     <img src="{{ asset($product->photo_path) }}" class="product-photo">
 </p>
 <p>
-    <strong>Ціна:</strong>
-    {{ $product->name }}
+    <strong>Назва:</strong>
+    {{ $product_translates->name }}
 </p>
 <p>
     <strong>Виробник:</strong>
@@ -15,7 +17,7 @@
 </p>
 <p>
     <strong>Матеріал:</strong>
-    {{ $product->material }}
+    {{ $product_translates->material }}
 </p>
 <p>
     <strong>Ціна:</strong>

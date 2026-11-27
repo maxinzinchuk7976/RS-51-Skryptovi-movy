@@ -6,6 +6,20 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StatsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\TrackVisit;
+use App\Http\Controllers\BlogController;
+
+Route::get(
+    '/blog/admin',
+    [BlogController::class, 'admin']
+)->name('blog.admin');
+
+
+Route::resource('blog', BlogController::class);
+
+Route::post(
+    '/product/{product}/translate',
+    [ProductController::class, 'translate']
+)->name('product.translate');
 
 Route::get(
     '/product/search',

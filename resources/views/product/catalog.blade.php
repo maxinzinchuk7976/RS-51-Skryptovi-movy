@@ -61,17 +61,18 @@
         </thead>
         <tbody>
             @foreach ($products as $i => $product)
+            <?php if(empty($lang)){$lang = 'uk';}; $product_translates = $product->translation($lang); ?>
             <tr>
                 <td>
                     <a href="{{ route('product.show', $product) }}">
-                        {{ $product->name }}
+                        {{ $product_translates->name }}
                     </a>
                 </td>
                 <td>
                     {{ $product->brand }}
                 </td>
                 <td>
-                    {{ $product->material }}
+                    {{ $product_translates->material }}
                 </td>
                 <td>
                     {{
