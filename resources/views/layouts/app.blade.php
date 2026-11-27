@@ -9,6 +9,7 @@
         body {
             margin: 0;
             padding: 0;
+            max-width:100vw;
         }
         .header-content {
             background-color: #ffffff;
@@ -49,8 +50,8 @@
             font-size: 2vw;
         }
         main {
-            padding-left:  5vw;
-            padding-right: 5vw;
+            padding-left:  0;
+            padding-right: 0;
             padding-top: 0;
             padding-down: 0;
             margin: 0;
@@ -58,13 +59,16 @@
             display: block;
             min-height: 85vh;
             width: 100%;
+            max-width: 100%;
             background-image: url("{{ asset('images/main-bg.png') }}");
             background-repeat: repeat;
         }
         main * {
         }
         #content {
-            width: 100%;
+            margin-left:  10vw;
+            margin-right: 10vw;
+            width: 80%;
         }
         footer {
             text-align: center;
@@ -93,6 +97,7 @@
             <entry> <a href="{{ url('/.') }}">Панель керування</a> </entry>
             <entry> <a href="{{ url('/product/') }}">Каталог</a> </entry>
             <entry> <a href="{{ route('country.index') }}">Країни</a> </entry>
+            <entry style="width: 13%"> <a href="{{ url('/stats') }}">Статистика</a> </entry>
         </header>
         <main>
             <div id="content">

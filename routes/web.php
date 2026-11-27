@@ -3,8 +3,9 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\MarketController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StatsController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Middleware\TrackVisit;
 
 Route::get(
     '/product/search',
@@ -21,6 +22,25 @@ Route::resource(
     ProductController::class
 );
 
+Route::get(
+    '/stats/detail',
+    [StatsController::class, 'detail']
+)->name('stats.detail');
+
+Route::get(
+    '/stats/devices',
+    [StatsController::class, 'deviceStatics']
+)->name('stats.devices');
+
+Route::get(
+    '/stats/searches',
+    [StatsController::class, 'searchStatics']
+)->name('stats.searches');
+
+Route::get(
+    '/stats/redirects',
+    [StatsController::class, 'redirectStatics']
+)->name('stats.redirects');
 
 Route::get(
     '/say/{message?}',
@@ -37,25 +57,11 @@ Route::view(
     'site.contact'
 )->name('site.contact');
 
-Route::view(
-    '/catalog',
-    'catalog'
-)->name('catalog');
-/*
-Route::get(
-    '/product/{id?}',
-    [MarketController::class, 'product']
-)->name('product.form');
-Route::post(
-    '/product/',
-    [MarketController::class, 'productOrder']
-)->name('product.order');*/
-
-
-
 Route::get('/', function () {
     return view('welcome');
 });
+
+
 
 Route::get(
     '/entry',
@@ -66,3 +72,6 @@ Route::post(
     '/entry',
     [SiteController::class, 'entryStore']
 )->name('entry.store');
+
+
+Route::get('/stats',[StatsController::class, 'pages'])->name('stats.pages');

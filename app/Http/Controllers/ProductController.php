@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchRequest;
 use App\Models\Product;
+use App\Models\Search;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\File;
@@ -35,7 +36,9 @@ class ProductController extends Controller
         if (isset($filters['maxcost'])) {
            $products->where('cost', '<=', $filters['maxcost']);
         }
-
+        Search::create(
+            [...$filters, 'visited_at' => now()]
+        );
 
         $products = $products->paginate(5)->withQueryString();
         return view('product.catalog', [...compact('products'),...$filters]);
