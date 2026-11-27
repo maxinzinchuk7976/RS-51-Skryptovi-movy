@@ -35,14 +35,14 @@
         @enderror
     </div>
     <div>
-        <label for="email">Номер телефону</label>
+        <label for="phone">Номер телефону</label>
         <input type="text" id="phone" name="phone" value="{{ old('phone') }}" >
         @error('phone')
         <p class="error">{{ $message }}</p>
         @enderror
     </div>
     <div>
-        <label for="email">Адреса доставки</label>
+        <label for="address">Адреса доставки</label>
         <input type="text" id="address" name="address" value="{{ old('address') }}" >
         @error('address')
         <p class="error">{{ $message }}</p>

@@ -4,8 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Облік товарів')</title>
+    @vite([
+    'resources/js/app.js'
+    ])
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <style>
+        .bootstrap-duallistbox-container { display: flex; gap: 20px; max-width: 720px;
+        }
+        .bootstrap-duallistbox-container .box1,
+        .bootstrap-duallistbox-container .box2 { flex: 1; min-width: 0; }
+        .bootstrap-duallistbox-container select { width: 100%; height: 190px; }
+
         body {
             margin: 0;
             padding: 0;

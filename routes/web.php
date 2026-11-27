@@ -7,6 +7,21 @@ use App\Http\Controllers\StatsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\TrackVisit;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\FilterController;
+use App\Http\Controllers\OrderController;
+
+Route::resource('filter', FilterController::class)
+->except(['show']);
+
+Route::get(
+    '/blog/{blog}/tags',
+    [BlogController::class, 'tags']
+)->name('blog.tags');
+Route::post(
+    '/blog/{blog}/tags',
+    [BlogController::class, 'tagsStore']
+)->name('blog.tags.store');
+
 
 Route::get(
     '/blog/admin',
@@ -14,6 +29,7 @@ Route::get(
 )->name('blog.admin');
 
 
+Route::resource('order', OrderController::class);
 Route::resource('blog', BlogController::class);
 
 Route::post(
