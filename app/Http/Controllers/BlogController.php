@@ -7,51 +7,129 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\BlogRequest;
 use App\Models\Category;
+use App\Models\Filter;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $blogs = Blog::with(['category', 'author'])
-            ->orderByDesc('dt_created')
-            ->paginate(6);
-        return view('blog.index', compact('blogs'));
+        $request->validate([
+        'filter' => [
+        'nullable',
+        'integer',
+        'exists:filter,filter_id',
+        ],
+        ]);
+        $filterId = $request->query('filter');
+        $blogs = Blog::query()
+        ->with(['category', 'author', 'filters'])
+        ->when(
+        $filterId,
+        fn ($query) => $query->whereHas(
+        'filters',
+        fn ($q) => $q->whereKey($filterId)
+        )
+        )
+        ->orderByDesc('dt_created')
+        ->paginate(6)
+        ->withQueryString();
+        $filters = Filter::pluck('filter_name', 'filter_id');
+        return view('blog.index', compact(
+        'blogs','filters','filterId'
+        ));
     }
 
     public function create()
     {
         return view('blog.create', [
                 'categories' => Category::orderBy('category_name')
-                ->pluck('category_name', 'category_id'),
+                ->pluck('category_name', 'category_id'), 'filters' =>Filter::orderBy('filter_name')->pluck('filter_name', 'filter_id')
             ]);
+    }
+
+    public function tags(Blog $blog)
+    {
+        $blog->load('filters');
+        return view('blog.tags', [
+        'blog' => $blog,
+        'filters' => Filter::pluck(
+        'filter_name',
+        'filter_id'
+        ),
+        'selected' => $blog->filters
+        ->pluck('filter_id')
+        ->all(),
+        ]);
+    }
+
+    public function tagsStore(Request $request, Blog $blog)
+    {
+    $data = $request->validate([
+    'filters' => ['sometimes', 'array'],
+    'filters.*' => [
+    'integer',
+    'distinct',
+    'exists:filter,filter_id',
+    ],
+    ]);
+    $blog->filters()->sync($data['filters'] ?? []);
+    return redirect()->route('blog.show', $blog);
     }
 
 
     public function store(BlogRequest $request)
     {
+        $data = $request->validated();
         $blog = Blog::create([
-            ...$request->validated(),
+            ...\Illuminate\Support\Arr::except(
+            $data,
+            ['filters']
+            ),
             'user_id' => auth()->id(),
         ]);
+        $blog->filters()->sync(
+            $data['filters'] ?? []
+        );
         return redirect()->route('blog.show', $blog);
     }
 
     public function show(Blog $blog)
     {
         return view('blog.show', compact('blog'));
+
     }
+
 
     public function edit(Blog $blog)
     {
+        $blog->load('filters');
         return view('blog.edit', [
-            'blog' => $blog,
-            'categories' => Category::orderBy('category_name')
-            ->pluck('category_name', 'category_id'),
+        'blog' => $blog,
+        'categories' => Category::pluck(
+        'category_name',
+        'category_id'
+        ),
+        'filters' => Filter::pluck(
+        'filter_name',
+        'filter_id'
+        ),
+        'selected' => $blog->filters
+        ->pluck('filter_id')
+        ->all(),
         ]);
     }
     public function update(BlogRequest $request, Blog $blog)
     {
-        $blog->update($request->validated());
+        $data = $request->validated();
+        $blog->update(
+            \Illuminate\Support\Arr::except(
+            $data,
+            ['filters']
+            )
+        );
+        $blog->filters()->sync(
+        $data['filters'] ?? []
+        );
         return redirect()->route('blog.show', $blog);
     }
 

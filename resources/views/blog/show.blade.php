@@ -24,6 +24,17 @@
     </a>
 </p>
 <p>
+    <div class="tags">
+        @forelse ($blog->filters as $filter)
+        <span class="tag">
+        {{ $filter->filter_name }}
+        </span>
+        @empty
+        <span>Міток немає.</span>
+        @endforelse
+    </div>
+</p>
+<p>
     <form
         method="POST"
         action="{{ route('blog.destroy', $blog) }}"

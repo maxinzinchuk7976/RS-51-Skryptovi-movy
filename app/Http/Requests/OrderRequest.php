@@ -19,7 +19,12 @@ class OrderRequest extends FormRequest
             'email' => ['required', 'email'],
             'phone' => ['required', 'string', 'regex:/^(?:\+38)?0\d{9}$/'],
             'address' => ['required', 'string', 'max:255'],
-            'id' => ['required']
+            'products' => ['sometimes', 'array'],
+                'products.*' => [
+                'integer',
+                'distinct',
+                'exists:product,id',
+            ],
         ];
     }
 
